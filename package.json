@@ -1,0 +1,28 @@
+{
+  "name": "api-movies",
+  "version": "1.0.0",
+  "description": "API That allows you to search in a database full of movies.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SanthyPinto/api-movies.git"
+  },
+  "keywords": [
+    "node",
+    "mysql",
+    "api",
+    "movies"
+  ],
+  "author": "Santiago Pinto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SanthyPinto/api-movies/issues"
+  },
+  "homepage": "https://github.com/SanthyPinto/api-movies#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
