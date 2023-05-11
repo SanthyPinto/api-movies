@@ -64,6 +64,47 @@ const getMovies = async (title, category) => {
   });
 };  
 
+const getNewestMovies = async () => {
+  return new Promise((resolve, reject) => {
+    let query = 'SELECT * FROM Movies WHERE release_date >= NOW() - INTERVAL 3 WEEK';
+    db.query(query, (error, results, fields) => {
+      if (error) {
+        reject(error);
+      } else { 
+        resolve(results);
+      }
+    });
+  });
+};
+
+const createViewedMovieByUser = async (id_movie, id_user) => {
+  return new Promise((resolve, reject) => {
+   const query = 'INSERT INTO Users_Movies (id_movie, id_user) VALUES (?, ?)';
+   const values = [id_movie, id_user];
+   db.query(query, values, (error, results, fields) => {
+     if (error) {
+      reject(error);
+     }
+     else {
+       resolve("Viewed movie add to user");
+     }
+   });
+  });
+ };
+
+ const getViewedMoviesByUser = async (id_user) => {
+  return new Promise((resolve, reject) => {
+    let query = `SELECT * FROM Users_Movies WHERE id_user = ${ id_user }`;
+    db.query(query, (error, results, fields) => {
+      if (error) {
+        reject(error);
+      } else { 
+        resolve(results);
+      }
+    });
+  });
+};
+
 module.exports = {
-  createMovie, getMovies
+  createMovie, getMovies, getNewestMovies, createViewedMovieByUser, getViewedMoviesByUser
 };

@@ -1,4 +1,4 @@
-const { createMovie, getMovies } = require('../models/moviesModel');
+const { createMovie, getMovies, getNewestMovies, createViewedMovieByUser, getViewedMoviesByUser } = require('../models/moviesModel');
 
 const createMovieHandler = async (req, res) => {
     try {
@@ -22,4 +22,37 @@ const createMovieHandler = async (req, res) => {
     }
   };
 
-module.exports = { createMovieHandler, getMoviesHandler };
+  const getNewestMoviesHandler = async (req, res) => {
+    try {
+      const results = await getNewestMovies();
+      res.status(200).json(results);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Error cargando las peliculas' });
+    }
+  };
+
+  const createViewedMovieByUserHandler = async (req, res) => {
+    try {
+      const { id_movie} = req.params;
+      const { id_user } = req.body;
+      await createViewedMovieByUser(id_movie, id_user);
+      res.status(201).json({ message: 'Pelicula marcada como vista por el usuario' });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Error marcando pelicula como vista' });
+    }
+  };
+
+  const getViewedMoviesByUserHandler = async (req, res) => {
+    try {
+      const { id_user } = req.params;
+      const results = await getViewedMoviesByUser(id_user);
+      res.status(200).json(results);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Error cargando las peliculas vistas por el usuario' });
+    }
+  };
+
+module.exports = { createMovieHandler, getMoviesHandler, getNewestMoviesHandler, createViewedMovieByUserHandler, getViewedMoviesByUserHandler };
