@@ -49,8 +49,9 @@ const createMovie = async (
   });
 };
 
-const getMovies = async (title, category) => {
+const getMovies = async (title, category, limit = 10, page = 1) => {
   const db = connectToDatabase();
+  const startIndex = (page - 1) * limit;
 
   return new Promise((resolve, reject) => {
     let query = "SELECT * FROM Movies";
@@ -70,6 +71,9 @@ const getMovies = async (title, category) => {
         query += ` id_movie IN (SELECT id_movie FROM Movies_Categories WHERE id_category = ${category})`;
       }
     }
+
+    query += ` LIMIT ${startIndex}, ${limit}`;
+
     db.query(query, (error, results, fields) => {
       if (error) {
         reject(error);
