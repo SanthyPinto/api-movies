@@ -49,7 +49,13 @@ const createMovie = async (
   });
 };
 
-const getMovies = async (title, category, limit = 10, page = 1) => {
+const getMovies = async (
+  title,
+  category,
+  limit = 10,
+  page = 1,
+  orderByReleaseDate = "newest"
+) => {
   const db = connectToDatabase();
   const startIndex = (page - 1) * limit;
 
@@ -71,8 +77,10 @@ const getMovies = async (title, category, limit = 10, page = 1) => {
         query += ` id_movie IN (SELECT id_movie FROM Movies_Categories WHERE id_category = ${category})`;
       }
     }
-
-    query += ` LIMIT ${startIndex}, ${limit}`;
+    const orderByClause = `ORDER BY release_date ${
+      orderByReleaseDate === "newest" ? "DESC" : "ASC"
+    } `;
+    query += ` ${orderByClause} LIMIT ${startIndex}, ${limit}`;
 
     db.query(query, (error, results, fields) => {
       if (error) {

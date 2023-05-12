@@ -27,8 +27,20 @@ const createMovieHandler = async (req, res) => {
 
 const getMoviesHandler = async (req, res) => {
   try {
-    const { title, category, limit = 10, page = 1 } = req.query;
-    const results = await getMovies(title, category, limit, page);
+    const {
+      title,
+      category,
+      limit = 10,
+      page = 1,
+      orderByReleaseDate,
+    } = req.query;
+    const results = await getMovies(
+      title,
+      category,
+      limit,
+      page,
+      orderByReleaseDate
+    );
     res.status(200).json(results);
   } catch (error) {
     console.log(error);
